@@ -69,8 +69,8 @@ class FasterRCNNIncrease(TwoStageDetector):
                 self.initial_gauss_mixture_model_voc(current_dataset_setting, ori_setting)
         else:
             self.pseudo_label_threshold = pseudo_label_setting['threshold']
-        torch.save(self.state_dict(), ori_setting['load_from_weight'])
-
+        torch.save(self.state_dict(), ori_setting["load_from_weight"])
+        
     def calculate_iou(self, box1, box2):
         x1_1, y1_1, x2_1, y2_1 = box1.cpu().tolist()
         x1_2, y1_2, x2_2, y2_2 = box2.cpu().tolist()
@@ -349,7 +349,7 @@ class FasterRCNNIncrease(TwoStageDetector):
             model = init_detector(cfg_path, pt_path)
             train_val = current_dataset_setting['train_val']
             img_dir = current_dataset_setting['img_dir']
-            xml_dir = '/data/my_code/dataset/DIOR/Annotations'
+            xml_dir = os.path.dirname(img_dir) + '/Annotations'
             labels_confidences = []
 
             for i in range(ori_setting['ori_num_classes']):

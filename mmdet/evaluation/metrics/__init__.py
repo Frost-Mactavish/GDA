@@ -4,6 +4,7 @@ from .coco_metric import CocoMetric
 from .coco_occluded_metric import CocoOccludedSeparatedMetric
 from .coco_panoptic_metric import CocoPanopticMetric
 from .crowdhuman_metric import CrowdHumanMetric
+from .dota_metric import DOTAMetric
 from .dump_det_results import DumpDetResults
 from .dump_proposals_metric import DumpProposals
 from .lvis_metric import LVISMetric
@@ -12,6 +13,7 @@ from .voc_metric import VOCMetric
 
 __all__ = [
     'CityScapesMetric', 'CocoMetric', 'CocoPanopticMetric', 'OpenImagesMetric',
-    'VOCMetric', 'LVISMetric', 'CrowdHumanMetric', 'DumpProposals',
+    'VOCMetric', 'LVISMetric', 'CrowdHumanMetric', 'DOTAMetric',
+    'DumpProposals',
     'CocoOccludedSeparatedMetric', 'DumpDetResults'
 ]

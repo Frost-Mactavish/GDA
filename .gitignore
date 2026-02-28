@@ -8,7 +8,7 @@ events.out.tfevents.*
 checkpoints/
 log/
 tb_logger/
-
+.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

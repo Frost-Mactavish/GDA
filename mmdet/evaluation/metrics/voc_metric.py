@@ -136,6 +136,7 @@ class VOCMetric(BaseMetric):
                 dataset_name = self.dataset_meta['classes']
 
             mean_aps = []
+            classwise_aps = []
             for iou_thr in self.iou_thrs:
                 logger.info(f'\n{"-" * 15}iou_thr: {iou_thr}{"-" * 15}')
                 # Follow the official implementation,
@@ -143,7 +144,7 @@ class VOCMetric(BaseMetric):
                 # we should use the legacy coordinate system in mmdet 1.x,
                 # which means w, h should be computed as 'x2 - x1 + 1` and
                 # `y2 - y1 + 1`
-                mean_ap, _ = eval_map(
+                mean_ap, cls_eval_results = eval_map(
                     preds,
                     gts,
                     scale_ranges=self.scale_ranges,
@@ -153,8 +154,20 @@ class VOCMetric(BaseMetric):
                     eval_mode=self.eval_mode,
                     use_legacy_coordinate=True)
                 mean_aps.append(mean_ap)
+                classwise_ap = []
+                for cls_result in cls_eval_results:
+                    ap = cls_result['ap']
+                    if isinstance(ap, np.ndarray):
+                        ap = ap.mean().item()
+                    classwise_ap.append(float(ap))
+                classwise_aps.append(np.array(classwise_ap, dtype=np.float32))
                 eval_results[f'AP{int(iou_thr * 100):02d}'] = round(mean_ap, 3)
             eval_results['mAP'] = sum(mean_aps) / len(mean_aps)
+            if classwise_aps:
+                mean_classwise_aps = np.stack(classwise_aps, axis=0).mean(axis=0)
+                eval_results['classwise_AP'] = [
+                    round(float(ap), 3) for ap in mean_classwise_aps.tolist()
+                ]
             eval_results.move_to_end('mAP', last=False)
         elif self.metric == 'recall':
             # TODO: Currently not checked.

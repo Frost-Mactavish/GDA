@@ -1,0 +1,15 @@
+matplotlib
+numpy
+pycocotools
+scipy
+shapely
+six
+terminaltables
+tqdm
+cython
+scikit-learn
+albumentations>=0.3.2 --no-binary qudida,albumentations
+yapf==0.40.1
+einops
+ninja
+quadprog

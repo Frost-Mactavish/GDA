@@ -163,8 +163,11 @@ class GPR(BaseLoop):
         # outputs = self.runner.model.train_step(
         #     data_batch, optim_wrapper=self.runner.optim_wrapper)
 
+        model = self.runner.model.module if hasattr(self.runner.model,
+                                                    'module') else self.runner.model
+
         with self.runner.optim_wrapper.optim_context(self):
-            data = self.runner.model.module.data_preprocessor(data_batch, training=True)
+            data = model.data_preprocessor(data_batch, training=True)
             losses = self.runner.model._run_forward(data, mode='loss')
 
         """
@@ -174,7 +177,7 @@ class GPR(BaseLoop):
         """
         (loss_old_positive_cls, loss_old_positive_bbox,
          loss_new_positive_cls, loss_new_positive_bbox,
-         loss_shared, log_vars) = self.runner.model.module.parse_losses_v3(losses)
+         loss_shared, log_vars) = model.parse_losses_v3(losses)
         # -------------------------------------------------------
         # 替换：self.runner.optim_wrapper.update_params(parsed_loss)
         step_kwargs = {}
@@ -186,7 +189,7 @@ class GPR(BaseLoop):
         loss_shared = self.runner.optim_wrapper.scale_loss(loss_shared)
         # print("loss old:{}, loss_new:{}, loss shared:{}".format(loss_old_positive, loss_new_positive, loss_shared))
 
-        ori_model = self.runner.model.module
+        ori_model = model
 
         self.runner.optim_wrapper.zero_grad(**zero_kwargs)
         if loss_old_positive_cls + loss_old_positive_bbox == 0:
@@ -232,10 +235,10 @@ class GPR(BaseLoop):
             self.runner.optim_wrapper.zero_grad(**zero_kwargs)
 
         # -------------------------------------------------------
-        if self.runner.model.detect_anomalous_params:
+        if getattr(self.runner.model, 'detect_anomalous_params', False):
             detect_anomalous_params(loss_old_positive_cls + loss_old_positive_bbox
                                     + loss_new_positive_cls + loss_new_positive_bbox
-                                    + loss_shared, model=self)
+                                    + loss_shared, model=model)
 
         self.runner.call_hook(
             'after_train_iter',

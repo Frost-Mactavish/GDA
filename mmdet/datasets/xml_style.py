@@ -50,7 +50,10 @@ class XMLDataset(BaseDetDataset):
         data_list = []
         img_ids = list_from_file(self.ann_file, backend_args=self.backend_args)
         for img_id in img_ids:
-            file_name = f'{img_id}.jpg'
+            if "DOTA" in self.sub_data_root:
+                file_name = f'{img_id}.png'
+            else:
+                file_name = f'{img_id}.jpg'
             xml_path = osp.join(self.sub_data_root, self.ann_subdir,
                                 f'{img_id}.xml')
 
@@ -82,7 +85,11 @@ class XMLDataset(BaseDetDataset):
             Union[dict, List[dict]]: Parsed annotation.
         """
         data_info = {}
-        img_path = '/data/my_code/dataset/DIOR/JPEGImages/' + img_info['file_name']
+        if "+" in img_info["xml_path"]:
+            abs_path = osp.dirname(osp.dirname(osp.dirname(img_info['xml_path'])))
+        else:
+            abs_path = osp.dirname(osp.dirname(img_info['xml_path']))
+        img_path = f'{abs_path}/JPEGImages/' + img_info['file_name']
         data_info['img_path'] = img_path
         data_info['img_id'] = img_info['img_id']
         data_info['xml_path'] = img_info['xml_path']

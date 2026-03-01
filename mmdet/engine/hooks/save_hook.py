@@ -43,5 +43,15 @@ class SaveBestResultHook(Hook):
                     f.write(f"  old_classes_mAP: {old_map * 100:.1f}\n")
                     f.write(f"  new_classes_mAP: {new_map * 100:.1f}\n")
 
+            # save necessary state_dict and meta.dataset_meta for storage efficiency
+            model = runner.model
+            if hasattr(model, "module"):
+                model = model.module
+
+            checkpoint = {
+                "meta": {"dataset_meta": runner.train_dataloader.dataset.metainfo},
+                "state_dict": model.state_dict(),
+            }
+
             ckpt_path = os.path.join(runner.work_dir, "best_model.pth")
-            torch.save(runner.model.state_dict(), ckpt_path)
+            torch.save(checkpoint, ckpt_path)

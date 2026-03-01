@@ -1,56 +1,16 @@
 import os
 import argparse
 import xml.etree.ElementTree as ET
+from mmdet.datasets.voc import class_voc, class_dior, class_dota
 
 
-all_class = {
-    "DIOR": [
-        "airplane",
-        "baseballfield",
-        "bridge",
-        "groundtrackfield",
-        "vehicle",
-        "ship",
-        "tenniscourt",
-        "airport",
-        "chimney",
-        "dam",
-        "basketballcourt",
-        "Expressway-Service-area",
-        "Expressway-toll-station",
-        "golffield",
-        "harbor",
-        "overpass",
-        "stadium",
-        "storagetank",
-        "trainstation",
-        "windmill",
-    ],
-    "DOTA": [
-        "plane",
-        "baseball-diamond",
-        "bridge",
-        "ground-track-field",
-        "small-vehicle",
-        "large-vehicle",
-        "ship",
-        "tennis-court",
-        "basketball-court",
-        "storage-tank",
-        "soccer-ball-field",
-        "roundabout",
-        "harbor",
-        "swimming-pool",
-        "helicopter",
-    ],
-}
-
+all_class = {"DIOR": class_dior, "DOTA": class_dota, "VOC": class_voc}
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Split VOC-style dataset into incremental tasks")
     parser.add_argument("-p", "--patter", type=str, default="15+1")
-    parser.add_argument("-d", "--dataset", type=str, default="DIOR", choices=["DIOR", "DOTA"])
+    parser.add_argument("-d", "--dataset", type=str, default="DIOR", choices=["DIOR", "DOTA", "VOC"])
     args = parser.parse_args()
 
     patter = args.patter
@@ -58,6 +18,7 @@ if __name__ == "__main__":
     data_root = {
         "DIOR": "/data/my_code/dataset/DIOR",
         "DOTA": "/data/my_code/dataset/DOTA_xml",
+        "VOC": "/data/my_code/dataset/VOC",
     }[dataset]
     all_class = all_class[dataset]
 

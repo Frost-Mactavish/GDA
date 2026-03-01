@@ -587,7 +587,5 @@ class DOTAMetric(BaseMetric):
         eval_results = OrderedDict()
         eval_results['mAP'] = round(mean_ap, 4)
         eval_results['classwise_AP'] = [round(float(ap), 4) for ap in ap_list]
-        for class_name, ap in zip(class_names, ap_list):
-            eval_results[f'AP_{class_name}'] = round(float(ap), 4)
 
         return eval_results

@@ -360,7 +360,10 @@ class FasterRCNNIncrease(TwoStageDetector):
                     files.append(line.strip())
                 for line in tqdm(files):
                     filename = line.strip()
-                    img_file = os.path.join(img_dir, filename + '.jpg')
+                    if "DOTA" in img_dir:
+                        img_file = os.path.join(img_dir, filename + '.png')
+                    else:
+                        img_file = os.path.join(img_dir, filename + '.jpg')
                     xml_file = os.path.join(xml_dir, filename + '.xml')
                     g_labels, g_bboxes = self.parse_voc_xml(xml_file)
 

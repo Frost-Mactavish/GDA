@@ -14,9 +14,8 @@ from .openimages import OpenImagesChallengeDataset, OpenImagesDataset
 from .samplers import (AspectRatioBatchSampler, ClassAwareSampler,
                        GroupMultiSourceSampler, MultiSourceSampler)
 from .utils import get_loading_pipeline
-from .voc import VOCDataset, VOCDataset10, VOCDataset10_10, VOCDataset10_5, VOCDataset10_5_5, VOCDataset15, VOCDataset5, \
-    VOCDataset19, VOCDataset19_1, VOCDataset10_2, VOCDataset12_2, VOCDataset14_2, VOCDataset16_2, VOCDataset18_2, \
-    VOCDataset16, VOCDataset18, VOCDataset17, VOCDataset11, VOCDataset12, VOCDataset13, VOCDataset14
+from .voc import VOCDataset, VOCDataset5, VOCDataset10, VOCDataset12, VOCDataset14, VOCDataset15, VOCDataset16, \
+    VOCDataset17, VOCDataset18, VOCDataset19, class_dior, class_voc, class_dota
 from .wider_face import WIDERFaceDataset
 from .xml_style import XMLDataset
 
@@ -30,20 +29,15 @@ __all__ = [
     'Objects365V1Dataset', 'Objects365V2Dataset',
     'CocoDataset70ShuffleV1Base', 'CocoDataset70ShuffleV1Task2',
     'CocoDataset40Order', 'CocoDataset40_20Order', 'CocoDataset40_20_20Order',
-    'VOCDataset10', 'VOCDataset10_10', 'VOCDataset10_5', 'VOCDataset10_5_5',
-    'VOCDataset5', 'VOCDataset15', 'CocoDataset70Order', 'CocoDataset70_10Order',
-    'VOCDataset19',
-    'VOCDataset19_1',
-    'VOCDataset10_2',
-    'VOCDataset12_2',
-    'VOCDataset14_2',
-    'VOCDataset16_2',
+    'VOCDataset10', 'VOCDataset5', 'VOCDataset15', 'CocoDataset70Order', 'CocoDataset70_10Order',
+    'VOCDataset',
+    'VOCDataset12',
+    'VOCDataset14'
     'VOCDataset16',
     'VOCDataset17',
     'VOCDataset18',
-    'VOCDataset18_2',
-    'VOCDataset11',
-    'VOCDataset12',
-    'VOCDataset13',
-    'VOCDataset14'
+    'VOCDataset19',
+    'class_dior',
+    'class_voc',
+    'class_dota'
 ]

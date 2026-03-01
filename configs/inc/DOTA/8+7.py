@@ -11,7 +11,7 @@ data_root = f"/data/my_code/dataset/DOTA_xml/{task}"
 ori_config = "configs/base/DOTA/8.py"
 ori_checkpoint = "log/DOTA/8+7/STEP0/best_model.pth"
 
-work_dir = f"log/DOTA/{task}/STEP{step}/"
+work_dir = f"log/DOTA/{task}/STEP{step}"
 confidence_cache = f"{work_dir}/confidence_cache.pth"
 load_from = load_from_weight = f"{work_dir}/temp.pth"
 
@@ -28,7 +28,7 @@ model = dict(
     current_dataset_setting=dict(
         dataset="voc",
         train_val=f"{data_root}/task{step}_trainval.txt",
-        img_dir="/data/my_code/dataset/DOTA/JPEGImages",
+        img_dir="/data/my_code/dataset/DOTA_xml/JPEGImages",
         use_class_special=True,
         cache_path=confidence_cache,
     ),
@@ -38,7 +38,7 @@ model = dict(
 train_pipeline = [
     dict(type="LoadImageFromFile", backend_args=backend_args),
     dict(type="LoadAnnotations", with_bbox=True),
-    dict(type="Resize", scale=(1333, 800), keep_ratio=True),
+    dict(type="Resize", scale=(1333, 1024), keep_ratio=True),
     dict(type="RandomFlip", prob=0.5),
     dict(type="PackDetInputs"),
 ]

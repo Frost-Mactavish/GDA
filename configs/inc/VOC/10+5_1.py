@@ -1,17 +1,17 @@
-_base_ = ["../_base_/dota.py"]
+_base_ = ["../_base_/voc.py"]
 
-task = "10+1"
-step = 2
-ori_num_classes = 11
-num_classes = 12
+task = "10+5"
+step = 1
+ori_num_classes = 10
+num_classes = 15
 
-dataset_type = "DOTADataset12"
-data_root = f"/data/my_code/dataset/DOTA_xml/{task}"
+dataset_type = "VOCDataset15"
+data_root = f"/data/my_code/dataset/VOC/{task}"
 
-ori_config = f"configs/inc/DOTA/{task}_{step - 1}.py"
-ori_checkpoint = f"log/DOTA/{task}/STEP{step - 1}/best_model.pth"
+ori_config = "configs/base/VOC/10.py"
+ori_checkpoint = "log/VOC/10+10/STEP0/best_model.pth"
 
-work_dir = f"log/DOTA/{task}/STEP{step}"
+work_dir = f"log/VOC/{task}/STEP{step}"
 confidence_cache = f"{work_dir}/confidence_cache.pth"
 load_from = load_from_weight = f"{work_dir}/temp.pth"
 
@@ -28,7 +28,7 @@ model = dict(
     current_dataset_setting=dict(
         dataset="voc",
         train_val=f"{data_root}/task{step}_trainval.txt",
-        img_dir="/data/my_code/dataset/DOTA_xml/JPEGImages",
+        img_dir="/data/my_code/dataset/VOC/JPEGImages",
         use_class_special=True,
         cache_path=confidence_cache,
     ),
@@ -38,7 +38,7 @@ model = dict(
 train_pipeline = [
     dict(type="LoadImageFromFile", backend_args=backend_args),
     dict(type="LoadAnnotations", with_bbox=True),
-    dict(type="Resize", scale=(1333, 1024), keep_ratio=True),
+    dict(type="Resize", scale=(1000, 600), keep_ratio=True),
     dict(type="RandomFlip", prob=0.5),
     dict(type="PackDetInputs"),
 ]
